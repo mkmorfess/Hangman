@@ -130,13 +130,18 @@ function hangman() {
 
 	console.log("Great! Here's your first word.")
 	console.log(randomWord);
-	var length = randomWord.length
+	var len = randomWord.length
 	var displayWord;
 
-	for (var i = 0; i < length; i++) {
+	for (var i = 0; i < len; i++) {
 		displayWord += "_ "
 	}
 
-	console.log(displayWord)
+	inquirer.prompt([{
+		name: "letter",
+		message: displayWord
+	}]).then(function(ans){
+		console.log("This is working, you chose " + ans.letter)
+	})
 
 }
