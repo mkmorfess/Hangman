@@ -1,5 +1,7 @@
 var inquirer = require("inquirer");
 var categories = require("./categories.js");
+var randomWord;
+var guesses = 9
 
 // console.log(categories.animals);
 // console.log(categories.movies);
@@ -30,6 +32,17 @@ inquirer.prompt([
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 function chooseCategory () {
 	inquirer.prompt([
 		{
@@ -53,8 +66,9 @@ function chooseCategory () {
 
 					if (ans.correct === "Yes") {
 						var random = Math.floor(Math.random() * categories.animals.length)
-						// console.log(categories.animals[random]);
-						console.log("Great! Here's your first word.")
+						randomWord = categories.animals[random];
+			
+						hangman();
 					}
 					else {
 						chooseCategory();
@@ -76,8 +90,9 @@ function chooseCategory () {
 
 					if (ans.correct === "Yes") {
 						var random = Math.floor(Math.random() * categories.movies.length)
-						// console.log(categories.movies[random]);
-						console.log("Great! Here's your first word.")
+						randomWord = categories.movies[random];
+						
+						hangman();
 					}
 					else {
 						chooseCategory();
@@ -97,8 +112,9 @@ function chooseCategory () {
 
 					if (ans.correct === "Yes") {
 						var random = Math.floor(Math.random() * categories.classmates.length)
-						// console.log(categories.classmates[random]);
-						console.log("Great! Here's your first word.")
+						randomWord = categories.classmates[random];
+						
+						hangman();
 					}
 					else {
 						chooseCategory();
@@ -107,4 +123,20 @@ function chooseCategory () {
 			}
 
 		})
+}
+
+
+function hangman() {
+
+	console.log("Great! Here's your first word.")
+	console.log(randomWord);
+	var length = randomWord.length
+	var displayWord;
+
+	for (var i = 0; i < length; i++) {
+		displayWord += "_ "
+	}
+
+	console.log(displayWord)
+
 }

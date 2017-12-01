@@ -1,5 +1,5 @@
-var CreateWords = function(word) {
-	this.word = word;
-}
+// var CreateWords = function(word) {
+// 	this.word = word;
+// }
 
-module.exports = CreateWords;
+// module.exports = CreateWords;

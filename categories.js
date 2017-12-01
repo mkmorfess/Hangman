@@ -11,12 +11,36 @@ var Categories = function() {
 		animals.push(word);
 	}
 
+	this.addNewAnimal = function(word) {
+		fs.appendFile("animals.txt", ", " + word, function(err){
+			if (!err) {
+				console.log("Animal Added");
+			}
+		})
+	}
+
 	this.addMovie = function(word) {
 		movies.push(word);
 	}
 
+	this.addNewMovie = function(word) {
+		fs.appendFile("movies.txt", ", " + word, function(err){
+			if (!err) {
+				console.log("Movie Added");
+			}
+		})
+	}
+
 	this.addClassmate = function(word) {
 		classmates.push(word);
+	}
+
+	this.addNewClassmate = function(word) {
+		fs.appendFile("classmates.txt", ", " + word, function(err){
+			if (!err) {
+				console.log("Classmate Added");
+			}
+		})
 	}
 
 }
@@ -63,7 +87,7 @@ fs.readFile("classmates.txt", "utf8", function(err, data) {
 
 })
 
-
+newWord.addMovie("Eurotrip");
 
 module.exports = {
 	animals: animals,
