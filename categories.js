@@ -1,14 +1,16 @@
-var CreateWords = require("./words.js");
+// var CreateWords = require("./words.js");
 var fs = require("fs");
 
-animals = [];
-movies = [];
-classmates = [];
+
 
 var Categories = function() {
 
+	this.animals = [];
+	this.movies = [];
+	this.classmates = [];
+
 	this.addAnimal = function(word) {
-		animals.push(word);
+		this.animals.push(word);
 	}
 
 	this.addNewAnimal = function(word) {
@@ -20,7 +22,7 @@ var Categories = function() {
 	}
 
 	this.addMovie = function(word) {
-		movies.push(word);
+		this.movies.push(word);
 	}
 
 	this.addNewMovie = function(word) {
@@ -32,7 +34,7 @@ var Categories = function() {
 	}
 
 	this.addClassmate = function(word) {
-		classmates.push(word);
+		this.classmates.push(word);
 	}
 
 	this.addNewClassmate = function(word) {
@@ -44,6 +46,8 @@ var Categories = function() {
 	}
 
 }
+
+
 
 var newWord = new Categories();
 
@@ -90,7 +94,7 @@ fs.readFile("classmates.txt", "utf8", function(err, data) {
 newWord.addMovie("Eurotrip");
 
 module.exports = {
-	animals: animals,
-	movies: movies,
-	classmates: classmates
+	animals: newWord.animals,
+	movies: newWord.movies,
+	classmates: newWord.classmates
 }
