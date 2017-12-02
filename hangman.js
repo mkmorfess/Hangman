@@ -30,19 +30,6 @@ inquirer.prompt([
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 function chooseCategory () {
 	inquirer.prompt([
 		{
@@ -67,7 +54,7 @@ function chooseCategory () {
 					if (ans.correct === "Yes") {
 						var random = Math.floor(Math.random() * categories.animals.length)
 						randomWord = categories.animals[random];
-			
+						console.log("Great! Here's your first word.")
 						hangman();
 					}
 					else {
@@ -91,7 +78,7 @@ function chooseCategory () {
 					if (ans.correct === "Yes") {
 						var random = Math.floor(Math.random() * categories.movies.length)
 						randomWord = categories.movies[random];
-						
+						console.log("Great! Here's your first word.")
 						hangman();
 					}
 					else {
@@ -113,7 +100,7 @@ function chooseCategory () {
 					if (ans.correct === "Yes") {
 						var random = Math.floor(Math.random() * categories.classmates.length)
 						randomWord = categories.classmates[random];
-						
+						console.log("Great! Here's your first word.")
 						hangman();
 					}
 					else {
@@ -128,20 +115,31 @@ function chooseCategory () {
 
 function hangman() {
 
-	console.log("Great! Here's your first word.")
 	console.log(randomWord);
 	var len = randomWord.length
-	var displayWord;
+	var displayWord = "_ ";
 
-	for (var i = 0; i < len; i++) {
+	for (var i = 1; i < len; i++) {
 		displayWord += "_ "
 	}
+
 
 	inquirer.prompt([{
 		name: "letter",
 		message: displayWord
 	}]).then(function(ans){
-		console.log("This is working, you chose " + ans.letter)
+		console.log("You chose " + ans.letter);
+
+		if (ans.letter === randomWord.indexOf(ans.letter)) {
+			console.log("this matches");
+			hangman();
+		}
+
+		else {
+			hangman();
+			console.log("Letters do not match")
+		}
+
 	})
 
 }
