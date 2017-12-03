@@ -63,8 +63,8 @@ function chooseCategory () {
 
 					if (ans.correct === "Yes") {
 						var random = Math.floor(Math.random() * categories.animals.length)
-						randomWord = "giraffe";
-						// categories.animals[random];
+						randomWord = categories.animals[random];
+						
 						console.log("Great! Here's your first word.")
 						hangman();
 					}
@@ -126,16 +126,16 @@ function chooseCategory () {
 
 function hangman() {
 	guesses = 9;
-	console.log(randomWord);
+	// console.log(randomWord);
 	
 
 	for (var i = 1; i < randomWord.length; i++) {
-		if (randomWord[i] === " ") {
-			displayWord += " "
-		}
-		else {
+		// if (randomWord[i] === " ") {
+		// 	displayWord += " "
+		// }
+		// else {
 		displayWord += "_ "
-		}
+		// }
 	}
 	hangmanStart();
 }
@@ -145,6 +145,7 @@ function hangmanStart(){
 
 	for (var i = 0; i < randomWord.length; i++) {
 		randomWordLetters.push(randomWord.charAt(i));
+		randomWordLetters.push(" ");
 	}
 
 	// console.log(randomWordLetters[4]);
@@ -161,21 +162,33 @@ function hangmanStart(){
 				if (guesses > 1 && randomWord != displayWord) {	
 
 					
-
+					// console.log(randomWordLetters)
 					if (randomWordLetters.includes(ans.letter) === true) {
 
-						for (var i = 0; i < displayWord.length; i++) {
-							if (randomWordLetters[i] === ans.letter) {
-								
-									displayWord = displayWord.replace(displayWord[i] + displayWord[i + 1], randomWordLetters[i]);
-								
-							}
-							
-						}
+					    for (var i = 0; i < displayWord.length; i++) {
+                			if (randomWordLetters[i] === ans.letter) {
+                    			displayWord = displayWord.substring(0, i) + randomWordLetters[i] + displayWord.substring(i + 1);
+                			}
 
-						if (randomWord === displayWord) {
-							console.log("You win!")
-						}
+            			}
+
+		                if (randomWordLetters.join("") === displayWord) {
+		                    console.log("You win!");
+		                    inquirer.prompt([
+		                    {
+		                    	name: "winner",
+		                    	message: "Do you want to play again?",
+		                    	type: "list",
+		                    	choices: ["Yes", "No"]
+		                    }]).then(function(ans){
+		                    	if (ans.winner === "Yes") {
+		                    		chooseCategory();
+		                    	}
+		                    	else {
+		                    		console.log("Ok.. see you later!")
+		                    	}
+		                    })
+		                }
 						else {	
 						hangmanStart();
 						}
