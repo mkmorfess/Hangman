@@ -1,36 +1,46 @@
 var inquirer = require("inquirer");
 var categories = require("./categories.js");
-var randomWord;
+var randomWord = [];
 var guesses = 9
+var displayWord = "_ ";
 
+startGame();
 // console.log(categories.animals);
 // console.log(categories.movies);
 // console.log(categories.classmates);
 
-inquirer.prompt([
-	{
-		name: "startGame",
-		message: "Welcome to Hangman! Do you want to start a new game?",
-		type: "list",
-		choices: ["Yes", "No"]
-	}
-]).then(function(ans){
+function startGame() {
+	inquirer.prompt([
+		{
+			name: "startGame",
+			message: "Welcome to Hangman! Do you want to start a new game?",
+			type: "list",
+			choices: ["Yes", "No"]
+		}
+	]).then(function(ans){
 
-	if (ans.startGame === "Yes") {
-		chooseCategory();
-	}
-
-
-	else {
-		console.log("Ok.. have a good day")
-	}
+		if (ans.startGame === "Yes") {
+			chooseCategory();
+		}
 
 
-})
+		else {
+			console.log("Ok.. have a good day")
+		}
+
+
+		})
+
+}
 
 
 
 function chooseCategory () {
+	guesses = 9;
+	displayWord = "_ "
+	randomWord = [];
+
+
 	inquirer.prompt([
 		{
 			name: "categories",
@@ -114,32 +124,67 @@ function chooseCategory () {
 
 
 function hangman() {
-
+	guesses = 9
+	var len = randomWord.length;
 	console.log(randomWord);
-	var len = randomWord.length
-	var displayWord = "_ ";
+	
 
 	for (var i = 1; i < len; i++) {
+		if (randomWord[i] === " ") {
+			displayWord += " "
+		}
+		else {
 		displayWord += "_ "
+		}
 	}
+	hangmanStart();
+}
 
+function hangmanStart(){
 
 	inquirer.prompt([{
 		name: "letter",
-		message: displayWord
+		message: displayWord + "\nGuess a letter: \n"
 	}]).then(function(ans){
-		console.log("You chose " + ans.letter);
+		console.log("You chose " + ans.letter + "\n");
+
+	if (guesses > 1) {	
 
 		if (ans.letter === randomWord.indexOf(ans.letter)) {
 			console.log("this matches");
-			hangman();
 		}
 
 		else {
-			hangman();
-			console.log("Letters do not match")
+			guesses--
+			console.log("Letters do not match");
+			console.log("Guesses Left: " + guesses);
+			hangmanStart();
 		}
+	}
+
+	else {
+		console.log("Game Over");
+		guesses = 9
+		
+		inquirer.prompt([
+			{
+				name: "newGame",
+				message: "Do you want to play a new game?",
+				type: "list",
+				choices: ["Yes", "No"]
+			}
+		]).then(function(ans){
+			if (ans.newGame === "Yes") {
+				chooseCategory();
+			}
+			else {
+				console.log("Ok.. come back real soon!");
+			}
+		})
+
+	}
 
 	})
 
 }
+
