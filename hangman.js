@@ -3,6 +3,8 @@ var categories = require("./categories.js");
 var randomWord = [];
 var guesses = 9
 var displayWord = "_ ";
+var wins = 0;
+var loses = 0;
 
 startGame();
 // console.log(categories.animals);
@@ -111,7 +113,7 @@ function chooseCategory () {
 					if (ans.correct === "Yes") {
 						var random = Math.floor(Math.random() * categories.classmates.length)
 						randomWord = categories.classmates[random];
-						console.log("Great! Here's your first word.")
+						console.log("Great! Here's your first word.\n")
 						hangman();
 					}
 					else {
@@ -143,6 +145,10 @@ function hangman() {
 function hangmanStart(){
 	var randomWordLetters = [];
 
+	randomWord = randomWord.toUpperCase();
+	// console.log(randomWord);
+
+
 	for (var i = 0; i < randomWord.length; i++) {
 		randomWordLetters.push(randomWord.charAt(i));
 		randomWordLetters.push(" ");
@@ -152,10 +158,23 @@ function hangmanStart(){
 
 	inquirer.prompt([{
 		name: "letter",
-		message: displayWord + "\nGuess a letter: \n"
-	}]).then(function(ans){
+		message: displayWord + "\nGuess a letter: \n",
+		validate: function(input) {
 
+			var done = this.async();
+	
+				if (input.length > 1 || input.length === 0) {
+					done("Return just a single letter or number");
+					return;
+				}
+				done(null, true);	
+			}
+		
+
+	}]).then(function(ans){
+			ans.letter = ans.letter.toUpperCase();
 			console.log("You chose " + ans.letter + "\n");
+
 
 
 
@@ -173,21 +192,11 @@ function hangmanStart(){
             			}
 
 		                if (randomWordLetters.join("") === displayWord) {
+		                	console.log("The word is " + randomWord);
 		                    console.log("You win!");
-		                    inquirer.prompt([
-		                    {
-		                    	name: "winner",
-		                    	message: "Do you want to play again?",
-		                    	type: "list",
-		                    	choices: ["Yes", "No"]
-		                    }]).then(function(ans){
-		                    	if (ans.winner === "Yes") {
-		                    		chooseCategory();
-		                    	}
-		                    	else {
-		                    		console.log("Ok.. see you later!")
-		                    	}
-		                    })
+		                    wins++
+		                    console.log("Wins: " + wins + " Loses: " + loses);
+		                  	gameOver();
 		                }
 						else {	
 						hangmanStart();
@@ -196,34 +205,43 @@ function hangmanStart(){
 					else {
 						guesses--
 						console.log("Letters do not match");
-						console.log("Guesses Left: " + guesses);
+						console.log("Guesses Left: " + guesses + "\n");
 						hangmanStart();
 					}
 				}
 
 
 				else {
-					console.log("Game Over");
-					guesses = 9
-					
-					inquirer.prompt([
-						{
-							name: "newGame",
-							message: "Do you want to play a new game?",
-							type: "list",
-							choices: ["Yes", "No"]
-						}
-					]).then(function(ans){
-						if (ans.newGame === "Yes") {
-							chooseCategory();
-						}
-						else {
-							console.log("Ok.. come back real soon!");
-						}
-					})
-
+					console.log("You lose...");
+					console.log("The word was " + randomWord);
+					loses++
+					console.log("Wins: " + wins + " Loses: " + loses);
+					gameOver();
 				}
 
+		})
+
+}
+
+function gameOver() {
+
+	console.log("Game Over");
+	guesses = 9
+	
+	inquirer.prompt([
+		{
+			name: "newGame",
+			message: "Do you want to play a new game?",
+			type: "list",
+			choices: ["Yes", "No"]
+		}
+	]).then(function(ans){
+		if (ans.newGame === "Yes") {
+			chooseCategory();
+		}
+		else {
+			console.log("Ok.. come back real soon!");
+		}
 	})
 
 }
