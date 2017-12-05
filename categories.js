@@ -96,5 +96,6 @@ newWord.addMovie("Eurotrip");
 module.exports = {
 	animals: newWord.animals,
 	movies: newWord.movies,
-	classmates: newWord.classmates
+	classmates: newWord.classmates,
+	Categories: Categories
 }
