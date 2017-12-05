@@ -5,6 +5,7 @@ var guesses = 9
 var displayWord = "_ ";
 var wins = 0;
 var loses = 0;
+var guessedLetters = [];
 
 startGame();
 // console.log(categories.animals);
@@ -128,6 +129,7 @@ function chooseCategory () {
 
 function hangman() {
 	guesses = 9;
+	guessedLetters = [];
 	// console.log(randomWord);
 	
 
@@ -144,6 +146,7 @@ function hangman() {
 
 function hangmanStart(){
 	var randomWordLetters = [];
+	
 
 	randomWord = randomWord.toUpperCase();
 	// console.log(randomWord);
@@ -167,6 +170,11 @@ function hangmanStart(){
 					done("Return just a single letter or number");
 					return;
 				}
+
+				if (guessedLetters.includes(input.toUpperCase()) === true) {
+					console.log("  <-- You already chose this letter/number.. try again.");
+					return;
+				}
 				done(null, true);	
 			}
 		
@@ -174,6 +182,9 @@ function hangmanStart(){
 	}]).then(function(ans){
 			ans.letter = ans.letter.toUpperCase();
 			console.log("You chose " + ans.letter + "\n");
+
+			guessedLetters.push(ans.letter);
+			// console.log(guessedLetters);
 
 
 
