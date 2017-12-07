@@ -7,7 +7,15 @@ var wins = 0;
 var loses = 0;
 var guessedLetters = [];
 
-startGame();
+
+
+if (categories.input === "admin") {
+	admin();
+}
+
+else {
+	startGame();
+}
 // console.log(categories.animals);
 // console.log(categories.movies);
 // console.log(categories.classmates);
@@ -274,3 +282,74 @@ function youLose(){
 
 }
 
+function admin(){
+
+	inquirer.prompt([
+		{
+			name: "admin",
+			message: "Which category do you want to add to",
+			type: "list",
+			choices: ["Animals", "Movies", "Classmates"]
+		}
+	]).then(function(ans) {
+
+		switch(ans.admin) {
+			case "Animals":
+				addNewAnimals();
+				break;
+			case "Movies":
+				addNewMovies();
+				break;
+			case "Classmates":
+				addNewClassmates();
+				break;
+		}
+
+	})
+
+}
+
+function addNewAnimals() {
+
+	inquirer.prompt([
+		{
+			name: "animalWord",
+			message: "Type in your new word"
+		}
+	]).then(function(ans){
+
+		categories.addNewAnimal(ans.animalWord);
+
+	})
+
+}
+
+function addNewMovies() {
+
+	inquirer.prompt([
+		{
+			name: "movieWord",
+			message: "Type in your new word"
+		}
+	]).then(function(ans){
+
+		categories.addNewMovie(ans.movieWord);
+
+	})
+
+}
+
+function addNewClassmates() {
+
+	inquirer.prompt([
+		{
+			name: "classmateWord",
+			message: "Type in your new word"
+		}
+	]).then(function(ans){
+
+		categories.addNewClassmate(ans.classmateWord);
+
+	})
+
+}

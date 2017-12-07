@@ -1,6 +1,6 @@
 // var CreateWords = require("./words.js");
 var fs = require("fs");
-
+var input = process.argv[2];
 
 
 var Categories = function() {
@@ -97,5 +97,8 @@ module.exports = {
 	animals: newWord.animals,
 	movies: newWord.movies,
 	classmates: newWord.classmates,
-	Categories: Categories
+	addNewAnimal: newWord.addNewAnimal,
+	addNewMovie: newWord.addNewMovie,
+	addNewClassmate: newWord.addNewClassmate,
+	input: input
 }
